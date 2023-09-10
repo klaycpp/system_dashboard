@@ -1,0 +1,24 @@
+# populate_frutas_verduras.py
+import os
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'frutas_system.settings')
+django.setup()
+
+
+
+frutas = [
+    "ABACATE", "ABACAXI", "AMEIXA FRESCA", "AMEIXA SECA", "CAQUI", "CÔCO", "GOIABA",
+    "KIWI", "LARANJA", "LIMÃO", "MAÇA ARGENTINA", "MAÇA VERDE", "MAÇA", "MAMÃO FORMOSA",
+    "MAMÃO HAVAI", "MANGA TOMI", "MANGA ESPADA", "MANGA PALMER", "MARACUJÁ", "MELÃO AMARELO",
+    "MELÃO REI", "MORANGO", "PASSAS", "PÊRA PORTUGUESA", "PÊRA ARGENTINA", "POKAN", "RAMBUTAN",
+    "UVA ITÁLIA", "UVA RUBI", "UVA VITÓRIA",
+]
+
+verduras = [
+    "ABOBRINHA", "ABOBÓRA JACAREZINHO", "ABOBÓRA MARANHÃO", "BATATA ESPECIAL", "BATATA DOCE",
+    "BATATA MISTA", "BATATA DIVERSA", "BERINJELA", "BETERRABA", "PIMENTÃO VERDE",
+    "PIMENTÃO VERMELHO", "REPOLHO VERDE", "REPOLHO ROXO", "TOMATE BOCA 1°", "TOMATE BOCA 2°",
+    "TOMATE BOCA 7", "TOMATE EXTRA",
+]
+

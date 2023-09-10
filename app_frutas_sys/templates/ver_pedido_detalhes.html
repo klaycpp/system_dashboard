@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Pedido</title>
+    <style>
+        body {
+            background-color: orange;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px; /* Reduzido o padding para diminuir o espaçamento interno */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 28px; /* Aumentado o tamanho do título */
+            font-weight: bold; /* Texto em negrito */
+            margin: 0; /* Removido o margin-top para o título ficar mais próximo do topo */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .frutas, .verduras {
+            width: 50%;
+            float: left;
+        }
+
+        .categoria {
+            background-color: #FF5733;
+            color: white;
+            font-weight: bold;
+        }
+
+        .clear {
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p style="font-size: 16px; font-weight: bold;">Detalhes Do Pedido Nº {{ pedido.id }} criado em {{ pedido.data_pedido|date:"d/m/Y" }}</p>
+
+    
+        <div class="frutas">
+            <table>
+                <tr>
+                    <th class="categoria">Frutas</th>
+                    <th class="categoria">Quantidade</th>
+                </tr>
+                {% for item in itens %}
+                {% if "MAÇA" in item.tipo or "BANANA" in item.tipo or "MELÃO" in item.tipo or "MANGA" in item.tipo or "CAQUI" in item.tipo or "LARANJA" in item.tipo or "CÔCO" in item.tipo or "MAMÃO" in item.tipo or "MARACUJÁ" in item.tipo or "KIWI" in item.tipo or "GOIABA" in item.tipo or "AMEIXA" in item.tipo or "CÔCO" in item.tipo or "ABACATE" in item.tipo or "POKAN" in item.tipo or "UVA" in item.tipo or "JILÓ" in item.tipo or "MELANCIA" in item.tipo or "LIMÃO" in item.tipo or "CAQUI" in item.tipo or "PÊRA" in item.tipo or "RAMBUTAN" in item.tipo or "MORANGO" in item.tipo or "ABACATE" in item.tipo or "AMEIXA FRESCA" in item.tipo or "AMEIXA SECA" in item.tipo or "ABACAXI" in item.tipo or "CAQUI" in item.tipo or "CÔCO" in item.tipo or "GOIABA" in item.tipo or "LARANJA" in item.tipo or "LIMÃO" in item.tipo or "MAÇÃ VERDE" in item.tipo or "MAÇÃ ARGENTINA" in item.tipo or "MAÇÃ 120" in item.tipo or "MAÇÃ 180" in item.tipo or "MANGA TOMI" in item.tipo or "MANGA ESPADA" in item.tipo or "MAMÃO FORMOSA" in item.tipo or "MANGA PALMER" in item.tipo or "MAMÃO HAVAI" in item.tipo or "MARACUJÁ" in item.tipo or "MELÃO AMARELO" in item.tipo or "MELÃO REI" in item.tipo or "MORANGO" in item.tipo or "PASSAS" in item.tipo or "PÊRA PORTUGUESA" in item.tipo or "PÊRA ARGENTINA" in item.tipo or "POKAN" in item.tipo or "UVA ITÁLIA" in item.tipo or "UVA RUBI" in item.tipo or "UVA VITÓRIA" in item.tipo or "RAMBUTAN" in item.tipo or "BANANA / TERRA" in item.tipo or "BANANA/ PRATA" in item.tipo or "MELANCIA" in item.tipo %}
+                        <tr>
+                            <td>{{ item.tipo }}</td>
+                            <td>{{ item.quantidade }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+        <div class="verduras">
+            <table>
+                <tr>
+                    <th class="categoria">Verduras</th>
+                    <th class="categoria">Quantidade</th>
+                </tr>
+                {% for item in itens %}
+                {% if "CEBOLA" in item.tipo or "ALHO" in item.tipo or "CENOURA" in item.tipo or "ABOBÓRA MARANHÃO" in item.tipo or "BATATA" in item.tipo or "ABOBRINHA" in item.tipo or "ABOBÓRA JACAREZINHO" in item.tipo or "BERINJELA" in item.tipo or "REPOLHO" in item.tipo or "COUVE" in item.tipo or "BRÓCOLIS" in item.tipo or "CHUCHU" in item.tipo or "QUIABO" in item.tipo or "ACELGA" in item.tipo or "BETERRABA" in item.tipo or "GENGIBRE" in item.tipo or "TOMATE" in item.tipo or "ABÓBORA JACAREZINHO" in item.tipo or "ABÓBORA MARANHÃO" in item.tipo or "ALFACE" in item.tipo or "BATATA DOCE" in item.tipo or "ALHO N° 06" in item.tipo or "ALHO N° 05" in item.tipo or "ALHO PORÓ" in item.tipo or "ALHO N° 04" in item.tipo or "BATATA ESPECIAL" in item.tipo or "BERINJELA" in item.tipo or "BETERRABA" in item.tipo or "BRÓCOLIS" in item.tipo or "CEBOLA 3" in item.tipo or "CEBOLA 2" in item.tipo or "CEBOLA ROXA 2" in item.tipo or "CEBOLA ROXA 3" in item.tipo or "CENOURA" in item.tipo or "CENOURA MISTA" in item.tipo or "COUVE FLOR" in item.tipo or "CHUCHU" in item.tipo or "JILÓ" in item.tipo or "MAXIXE" in item.tipo or "PEPINO" in item.tipo or "PEPINO JAPONÊS" in item.tipo or "PIMENTÃO VERDE" in item.tipo or "PIMENTÃO VERMELHO" in item.tipo or "REPOLHO VERDE" in item.tipo or "POKAN" in item.tipo or "TOMATE BOCA 1°" in item.tipo or "TOMATE BOCA 2°" in item.tipo or "TOMATE BOCA 7" in item.tipo or "QUIABO SACO" in item.tipo or "QUIABO CAIXA" in item.tipo or "VARGEM" in item.tipo or "TOMATE EXTRA" in item.tipo %}
+                        <tr>
+                            <td>{{ item.tipo }}</td>
+                            <td>{{ item.quantidade }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+        <div class="clear"></div>
+        <!-- Outros detalhes do pedido, se houver -->
+    </div>
+</body>
+</html>

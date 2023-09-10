@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle</title>
+    <link rel="icon" href="https://i.ibb.co/M6YpLrg/melancia.png" type="image/png">
+    <style>
+        body {
+            background-color: orange;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #00cc00; /* Cor verde */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            z-index: 9999;
+        }
+
+        .success-popup {
+            background-color: #00cc00; /* Cor verde */
+        }
+        .error-popup {
+            background-color: #ff0000; /* Cor laranja */
+        }
+
+        header {
+            background-color: transparent;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .custom-button {
+            background-color: #ff6600;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-button:hover {
+            background-color: #ff4500;
+        }
+
+        .ver-button {
+            background-color: #00cc00; /* Verde */
+        }
+
+        .enviar-button {
+            background-color: #ff6600; /* Laranja */
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        /* Estilos para o output */
+        #output {
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Estilos para a tabela de pedidos */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ff6600;
+            color: white;
+        }
+
+        td a {
+            text-decoration: underline;
+            color: blue;
+            cursor: pointer;
+        }
+
+        /* Estilo para os botões de ação na tabela de pedidos */
+        .pedido-action-button {
+            background-color: #ff6600;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            margin-right: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .pedido-action-button:hover {
+            background-color: #ff4500;
+        }
+
+        /* Estilos para o status do pedido */
+        .status-concluido {
+            color: green;
+        }
+
+        .status-pendente {
+            color: #ff6600;
+        }
+   
+    </style>
+</head>
+<body>
+    
+    
+    <header>
+        <img src="https://i.ibb.co/M6YpLrg/logo.png" alt="Logomarca" class="logo">
+    </header>
+    <div class="container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <div id="success-popup" class="popup success-popup">
+            <i class="fas fa-check-circle"></i> Ação concluída com sucesso!
+        </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <div id="error-popup" class="popup error-popup">
+            <i class="fas fa-times"></i> Licensa invalida ou expirada!
+        </div>
+        
+        
+        
+        <div class="button-container">
+            <form method="post" action="{% url 'formulario_criar_pedido' %}">
+                {% csrf_token %}
+                <button type="submit" class="custom-button" title="Aqui você pode criar um novo pedido para a semana">Criar Novo Pedido</button>
+            </form>
+        </div>
+        <div id="output">
+            <!-- Espaço para listar os pedidos -->
+            <h2>Pedidos Feitos</h2>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+                {% for pedido in pedidos_dashboard %}
+                <tr id="pedido-{{ pedido.id }}">
+                    <td>{{ pedido.id }}</td>
+                    <td>{{ pedido.data_pedido|date:"d/m/Y" }}</td>
+                    <td class="{% if pedido.status == 'Concluído' %}status-concluido{% else %}status-pendente{% endif %}">{{ pedido.status }}</td>
+                    <td>
+                        <a href="{% url 'ver_pedido' pedido.id %}" class="pedido-action-button ver-button" title="Ver Pedido">Ver</a>
+                        <button class="pedido-action-button" title="Baixar Pedido">
+                            <a href="{% url 'download_pedido' pedido.id %}" style="text-decoration: none; color: white;">Baixar</a>
+                        </button>
+                        
+                        <a href="{% url 'modificar_pedido' pedido.id %}" class="pedido-action-button modificar-button" title="Modificar Pedido">Modificar</a>
+                        <button class="pedido-action-button apagar-button" data-pedido-id="{{ pedido.id }}" title="Apagar Pedido">Apagar</button>
+                        <button class="pedido-action-button enviar-button" id="enviar-button" title="Enviar Pedido">Enviar</button>
+
+                        
+                        <button class="pedido-action-button concluir-button" data-pedido-id="{{ pedido.id }}" title="Concluir">Concluir</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Adicione um ouvinte de clique para os botões "Concluir"
+        $(".concluir-button").click(function () {
+            var pedidoId = $(this).data("pedido-id"); // Obtenha o ID do pedido a partir do atributo de dados
+
+            // Envie uma solicitação AJAX para atualizar o status do pedido
+            $.ajax({
+                type: "POST",
+                url: "/concluir_pedido/", // Defina a URL correta do Django
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}", // Token CSRF do Django
+                    pedido_id: pedidoId // ID do pedido que será concluído
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // Atualize o status na tabela
+                        var statusCell = $("#pedido-" + pedidoId + " .status-pendente");
+                        statusCell.text("Concluído");
+                        statusCell.removeClass("status-pendente").addClass("status-concluido");
+                        showSuccessPopup();
+                    } else {
+                        showErrorPopup();
+                    }
+                },
+                error: function () {
+                    alert("Erro na solicitação AJAX.");
+                }
+            });
+        });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+        function showErrorPopup() {
+        var errorPopup = document.getElementById("error-popup");
+        errorPopup.style.display = "block";
+        setTimeout(function(){
+            errorPopup.style.display = "none";
+        }, 2000);
+    }
+
+    const enviarButton = document.getElementById('enviar-button');
+    enviarButton.addEventListener('click', showErrorPopup);
+
+
+
+    function showSuccessPopup() {
+    var successPopup = document.getElementById("success-popup");
+    successPopup.style.display = "block";
+    setTimeout(function () {
+        successPopup.style.display = "none";
+    }, 2000); // O popup desaparecerá após 3 segundos (3000 milissegundos)
+
+    
+}
+    $(document).ready(function () {
+        // Adicione um ouvinte de clique para os botões "Apagar"
+        $(".apagar-button").click(function () {
+            var pedidoId = $(this).data("pedido-id"); // Obtenha o ID do pedido a partir do atributo de dados
+
+            // Envie uma solicitação AJAX para excluir o pedido
+            $.ajax({
+                type: "POST",
+                url: "/apagar_pedido/" + pedidoId + "/", // Defina a URL correta do Django
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}" // Token CSRF do Django (certifique-se de que esta parte esteja correta)
+                },
+                success: function (data) {
+                    if (data.success) {
+                        showSuccessPopup();
+                        $("#pedido-" + pedidoId).remove();
+                    } else {
+                        showErrorPopup();
+                    }
+                },
+                error: function () {
+                    showErrorPopup();
+                }
+            });
+        });
+    });
+</script>
+
+    </div>
+</body>
+</html>

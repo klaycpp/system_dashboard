@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FrutosFrescos</title>
+    <link rel="icon" href="https://i.ibb.co/M6YpLrg/melancia.png" type="image/png">
+    <style>
+        body {
+            background-color: orange;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        .melancia {
+            width: 100px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: orange;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff7f00;
+        }
+
+        /* Estilos para as palavras "frutos" e "frescos" */
+        .frutos {
+            color: green;
+        }
+
+        .frescos {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://i.ibb.co/M6YpLrg/melancia.png" alt="Melancia" class="melancia">
+        <h1>Login - <span class="frutos">Frutos</span><span class="frescos">Frescos</span></h1>
+        <div class="form-container">
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="username" required value=""><br>
+
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required><br>
+
+                {% if messages %}
+                <ul class="errorlist">
+                    {% for message in messages %}
+                    <li style="color: red;">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

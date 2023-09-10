@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Registro de Pedidos <span style="color: green;">Frutos</span><span style="color: #FF4500;">Frescos</span></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Adiciona font-awesome para ícones -->
+    <style>
+        body {
+            background-color: orange;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            font-size: 24px; /* Aumenta o tamanho do título */
+            color: black; /* Altera a cor do texto para preto */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centraliza o conteúdo verticalmente */
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave */
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 150px; /* Aumenta o tamanho da logomarca */
+            height: 150px;
+            cursor: pointer; /* Adiciona cursor de mão ao logo */
+        }
+
+        .column {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .item {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        select,
+        input[type="number"] {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="button"], input[type="submit"] {
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="button"]:hover, input[type="submit"]:hover {
+            background-color: #ff4500;
+        }
+
+        button.remove-item {
+            background-color: #FF4500; /* Vermelho */
+            color: white;
+            border: none;
+            border-radius: 50%; /* Adiciona borda arredondada */
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+        }
+
+        button.remove-item:hover {
+            background-color: #FF0000; /* Vermelho mais escuro */
+        }
+
+        /* Estilo para a notificação de item adicionado com sucesso */
+        .notification-added {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: green; /* Verde */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            display: flex;
+            align-items: center; /* Centraliza verticalmente */
+        }
+
+        /* Estilo para a notificação de item removido com sucesso */
+        .notification-removed {
+            position: absolute;
+            top: 50px; /* Posiciona abaixo da notificação de item adicionado */
+            right: 10px;
+            background-color: #FF0000; /* Vermelho */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            display: flex;
+            align-items: center; /* Centraliza verticalmente */
+        }
+
+        .notification i {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'dashboard' %}">
+        <img src="https://i.ibb.co/M6YpLrg/logo.png" alt="Logomarca" class="logo">
+    </a>
+    <h1>Registro de Pedidos <span style="color: green;">Frutos</span><span style="color: #FF4500;">Frescos</span></h1>
+    <form method="POST" action="{% url 'criar_pedido' %}">
+        {% csrf_token %}
+        <div class="container">
+            <!-- Coluna de Frutas e Verduras Misturadas -->
+            <div class="column">
+                <div class="items">
+                    <!-- Manter um campo de entrada inicial (não clonável) -->
+                    <div class="item">
+                        <label for="id_tipo_item">Item:</label>
+                        <select name="tipo_item[]" class="tipo_item">
+                            <option value="ABACATE">ABACATE</option>
+                            <option value="ABACAXI">ABACAXI</option>
+                            <option value="ABOBÓRA JACAREZINHO">ABOBÓRA JACAREZINHO</option>
+                            <option value="ABOBÓRA MARANHÃO">ABOBÓRA MARANHÃO</option>
+                            <option value="ABOBRINHA">ABOBRINHA</option>
+                            <option value="ACELGA">ACELGA</option>
+                            <option value="ALFACE">ALFACE</option>
+                            <option value="ALHO N° 04">ALHO N° 04</option>
+                            <option value="ALHO N° 05">ALHO N° 05</option>
+                            <option value="ALHO N° 06">ALHO N° 06</option>
+                            <option value="ALHO PORÓ">ALHO PORÓ</option>
+                            <option value="AMEIXA FRESCA">AMEIXA FRESCA</option>
+                            <option value="AMEIXA SECA">AMEIXA SECA</option>
+                            <option value="BATATA DOCE">BATATA DOCE</option>
+                            <option value="BATATA DIVERSA">BATATA DIVERSA</option>
+                            <option value="BATATA ESPECIAL">BATATA ESPECIAL</option>
+                            <option value="BATATA MISTA">BATATA MISTA</option>
+                            <option value="BATATA EXTRA">BATATA EXTRA</option>
+                            <option value="BERINJELA">BERINJELA</option>
+                            <option value="BETERRABA">BETERRABA</option>
+                            <option value="BANANA / TERRA">BANANA / TERRA</option>
+                            <option value="BANANA/ PRATA">BANANA/ PRATA</option>
+                            <option value="BRÓCOLIS">BRÓCOLIS</option>
+                            <option value="CENOURA">CENOURA</option>
+                            <option value="CENOURA MISTA">CENOURA MISTA</option>
+                            <option value="CEBOLA 2">CEBOLA 2</option>
+                            <option value="CEBOLA 3">CEBOLA 3</option>
+                            <option value="CEBOLA ROXA 2">CEBOLA ROXA 2</option>
+                            <option value="CEBOLA ROXA 3">CEBOLA ROXA 3</option>
+                            <option value="CAQUI">CAQUI</option>
+                            <option value="CÔCO">CÔCO</option>
+                            <option value="COUVE FLOR">COUVE FLOR</option>
+                            <option value="CHUCHU">CHUCHU</option>
+                            <option value="GOIABA">GOIABA</option>
+                            <option value="GENGIBRE">GENGIBRE</option>
+                            <option value="KIWI">KIWI</option>
+                            <option value="JILÓ">JILÓ</option>
+                            <option value="LARANJA">LARANJA</option>
+                            <option value="LIMÃO">LIMÃO</option>
+                            <option value="MAÇA ARGENTINA">MAÇA ARGENTINA</option>
+                            <option value="MAÇA VERDE">MAÇA VERDE</option>
+                            <option value="MANGA TOMI">MANGA TOMI</option>
+                            <option value="MANGA ESPADA">MANGA ESPADA</option>
+                            <option value="MAMÃO FORMOSA">MAMÃO FORMOSA</option>
+                            <option value="MAMÃO HAVAI">MAMÃO HAVAI</option>
+                            <option value="MARACUJÁ">MARACUJÁ</option>
+                            <option value="MELÃO AMARELO">MELÃO AMARELO</option>
+                            <option value="MELÃO REI">MELÃO REI</option>
+                            <option value="MORANGO">MORANGO</option>
+                            <option value="PASSAS">PASSAS</option>
+                            <option value="PIMENTÃO VERDE">PIMENTÃO VERDE</option>
+                            <option value="PIMENTÃO VERMELHO">PIMENTÃO VERMELHO</option>
+                            <option value="PÊRA PORTUGUESA">PÊRA PORTUGUESA</option>
+                            <option value="PÊRA ARGENTINA">PÊRA ARGENTINA</option>
+                            <option value="POKAN">POKAN</option>
+                            <option value="REPOLHO VERDE">REPOLHO VERDE</option>
+                            <option value="REPOLHO ROXO">REPOLHO ROXO</option>
+                            <option value="QUIABO SACO">QUIABO SACO</option>
+                            <option value="QUIABO CAIXA">QUIABO CAIXA</option>
+                            <option value="RAMBUTAN">RAMBUTAN</option>
+                            <option value="UVA ITÁLIA">UVA ITÁLIA</option>
+                            <option value="UVA RUBI">UVA RUBI</option>
+                            <option value="UVA VITÓRIA">UVA VITÓRIA</option>
+                            <option value="TOMATE BOCA 1°">TOMATE BOCA 1°</option>
+                            <option value="TOMATE BOCA 2°">TOMATE BOCA 2°</option>
+                            <option value="TOMATE BOCA 7">TOMATE BOCA 7</option>
+                            <option value="TOMATE EXTRA">TOMATE EXTRA</option>
+                            <option value="VARGEM">VARGEM KG</option>
+                            <option value="MELANCIA">MELANCIA</option>
+                        </select>
+                        <label for="id_quantidade_item">Quantidade:</label>
+                        <input type="number" name="quantidade_item[]" class="quantidade_item" required>
+                        <!-- Botão Remover Item -->
+                        <button type="button" class="remove-item">X</button>
+                    </div>                    
+                </div>
+                <button type="button" class="adicionar_item">Adicionar Item</button>
+                <input type="submit" value="Registrar" class="registrar">
+            </div>
+        </div>
+    </form>
+    <!-- Notificação de Item Adicionado com Sucesso -->
+    <div class="notification notification-added" id="notification-added">
+        <i class="fas fa-check-circle"></i> Item adicionado com sucesso!
+    </div>
+    <!-- Notificação de Item Removido com Sucesso -->
+    <div class="notification notification-removed" id="notification-removed">
+        <i class="fas fa-times-circle"></i> Item removido com sucesso!
+    </div>
+    <script>
+        // Função para adicionar dinamicamente campos de entrada de Frutas e Verduras misturadas
+        document.querySelector('.adicionar_item').addEventListener('click', function () {
+            const container = document.querySelector('.items');
+            const newItem = document.querySelector('.item').cloneNode(true);
+            container.appendChild(newItem);
+
+            // Exibir notificação de item adicionado com sucesso
+            const notificationAdded = document.getElementById('notification-added');
+            notificationAdded.style.opacity = '1';
+            notificationAdded.style.visibility = 'visible';
+            setTimeout(function () {
+                notificationAdded.style.opacity = '0';
+                notificationAdded.style.visibility = 'hidden';
+            }, 1500);
+        });
+
+        // Função para remover dinamicamente campos de entrada de Frutas e Verduras misturadas
+        document.querySelector('.container').addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove-item')) {
+                const item = e.target.parentElement;
+                const container = document.querySelector('.items');
+                // Verificar se este não é o primeiro item antes de remover
+                if (container.children.length > 1) {
+                    item.remove();
+                    // Exibir notificação de item removido com sucesso
+                    const notificationRemoved = document.getElementById('notification-removed');
+                    notificationRemoved.style.opacity = '1';
+                    notificationRemoved.style.visibility = 'visible';
+                    setTimeout(function () {
+                        notificationRemoved.style.opacity = '0';
+                        notificationRemoved.style.visibility = 'hidden';
+                    }, 1500);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

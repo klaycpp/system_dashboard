@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Concluído com Sucesso</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #4CAF50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .success-title {
+            font-size: 32px;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .success-text {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .gif {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        .redirect-message {
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #ccc;
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .filler {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: width 5s ease; /* Transição de 5 segundos para a barra de carregamento */
+        }
+    </style>
+</head>
+<body>
+    <h1 class="success-title">Pedido Concluído com Sucesso!</h1>
+    <div class="container">
+        <div class="gif"><img src="https://i.ibb.co/gyWdK9W/1c92b2-352bfdb524654143b0879a274cd14463-mv2.gif" alt="1c92b2-352bfdb524654143b0879a274cd14463-mv2" border="0"></div>
+        <h2>SEU PEDIDO:</h2>
+        <ul>
+            {% for item in pedido.itempedido_set.all %}
+                <li class="success-text">{{ item.tipo }} - Quantidade: {{ item.quantidade }}</li>
+            {% endfor %}
+        </ul>
+        <div class="redirect-message"><strong>VOCÊ SERÁ REDIRECIONADO EM 5 SEGUNDOS.</strong></div>
+        <div class="progress-bar">
+            <div class="filler"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Redirecionar após 5 segundos
+        setTimeout(function() {
+            window.location.href = "/dashboard";
+        }, 5000);
+
+        // Atualizar a barra de carregamento
+        const filler = document.querySelector('.filler');
+        let width = 0;
+        const interval = 50; // Atualizar a cada 50ms
+
+        const updateProgressBar = () => {
+            if (width >= 100) {
+                clearInterval(progressInterval);
+            } else {
+                width += (interval / 500) * 100; // 5 segundos para atingir 100%
+                filler.style.width = width + '%';
+            }
+        };
+
+        const progressInterval = setInterval(updateProgressBar, interval);
+    </script>
+</body>
+</html>

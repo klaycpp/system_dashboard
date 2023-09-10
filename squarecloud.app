@@ -1,0 +1,9 @@
+MAIN=manage.py
+MEMORY=612
+VERSION=recommended
+DISPLAY_NAME=Frutos Frescos
+DESCRIPTION=Registro De Pedidos
+AVATAR=https://ibb.co/M6YpLrg
+SUBDOMAIN=frutosfrescos
+START=gunicorn frutas_system.wsgi:application
+AUTORESTART=true

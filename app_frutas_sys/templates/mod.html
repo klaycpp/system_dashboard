@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Pedido</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: orange;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Estilizando o container branco */
+        .container {
+            background-color: white;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column; /* Alterado para usar flexbox */
+            align-items: center; /* Centralizar conteúdo verticalmente */
+        }
+
+        /* Estilizando botões com detalhes laranjas e efeitos */
+        .btn {
+            background-color: orange;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #ff9900; /* Laranja mais claro quando hover */
+        }
+
+        /* Estilizando botões de remover */
+        .btn-remove {
+            background-color: red;
+            color: white;
+            padding: 1px 1px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-remove:hover {
+            background-color: #ff0000; /* Vermelho mais escuro quando hover */
+        }
+
+        /* Estilizando links */
+        a {
+            color: orange;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilizando o combobox */
+        select {
+            padding: 3px;
+            border-radius: 3px;
+            width: 20%; /* 100% da largura do container */
+        }
+
+            .item-info {
+            flex-grow: 1; /* Expande para ocupar o espaço disponível */
+         }
+        /* Estilizando a lista de itens do pedido */
+        ul {
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 0px; /* Adicionando espaço vertical */
+            list-style-type: none; /* Removendo marcadores de lista */
+            padding: 0;
+        }
+
+        /* Estilizando os botões de ação */
+        .action-buttons {
+            
+            justify-content: space-between; /* Alinhar à direita */
+            display: flex;
+            align-items: center;
+        }
+
+        /* Estilizando o botão de voltar para o dashboard */
+        .btn-back {
+            background-color: orange;
+            color: white;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            flex-grow: 1; /* Expande para ocupar o espaço disponível */
+            margin-left: 10px; /* Adiciona espaço à esquerda do botão */
+
+        }
+
+        .btn-back:hover {
+            background-color: #ff9900; /* Laranja mais claro quando hover */
+        }
+        /* Estilizando o contêiner de quantidade e botão */
+        .quantity-container {
+            display: flex;
+            align-items: center; /* Centraliza verticalmente */
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px; /* Espaçamento entre os itens */
+           
+        }
+
+        /* Estilizando o campo de entrada de quantidade */
+        #quantidade_item {
+            padding: 3px;
+            border-radius: 3px;
+            width: 20%; /* 100% da largura do container */
+            margin-right: 10px; /* Adiciona espaço à direita do campo */
+        }
+
+        /* Estilizando o botão de adicionar item dentro do contêiner */
+        .quantity-container .btn {
+            padding: 10px 20px;
+        }
+
+        /* Estilizando o popup verde */
+        .popup-green {
+            background-color: green;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            position: absolute;
+            top: 50px; /* Ajuste a posição vertical aqui */
+            right: 10px; /* Ajuste a posição horizontal aqui */
+            z-index: 1; /* Certifique-se de que esteja na frente de outros elementos */
+        }
+
+        /* Estilizando o popup vermelho */
+        .popup-red {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            position: absolute;
+            top: 50px; /* Ajuste a posição vertical aqui */
+            right: 10px; /* Ajuste a posição horizontal aqui */
+            z-index: 1; /* Certifique-se de que esteja na frente de outros elementos */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Modificar Pedido</h1>
+        
+        <!-- Formulário para adicionar um novo item ao pedido -->
+        <form method="post" action="{% url 'adicionar_item_pedido' pedido.id %}" class="add-item-form">
+            {% csrf_token %}
+            <label for="tipo_item">Items:</label>
+            <!-- Adicionei um combobox para a lista de frutas -->
+            <select id="tipo_item" name="tipo_item" required>
+                <option value="ABACATE">ABACATE</option>
+                <option value="ABACAXI">ABACAXI</option>
+                <option value="ABOBÓRA JACAREZINHO">ABOBÓRA JACAREZINHO</option>
+                <option value="ABOBÓRA MARANHÃO">ABOBÓRA MARANHÃO</option>
+                <option value="ABOBRINHA">ABOBRINHA</option>
+                <option value="ACELGA">ACELGA</option>
+                <option value="ALFACE">ALFACE</option>
+                <option value="ALHO N° 04">ALHO N° 04</option>
+                <option value="ALHO N° 05">ALHO N° 05</option>
+                <option value="ALHO N° 06">ALHO N° 06</option>
+                <option value="ALHO PORÓ">ALHO PORÓ</option>
+                <option value="AMEIXA FRESCA">AMEIXA FRESCA</option>
+                <option value="AMEIXA SECA">AMEIXA SECA</option>
+                <option value="BATATA DOCE">BATATA DOCE</option>
+                <option value="BATATA DIVERSA">BATATA DIVERSA</option>
+                <option value="BATATA ESPECIAL">BATATA ESPECIAL</option>
+                <option value="BATATA MISTA">BATATA MISTA</option>
+                <option value="BATATA EXTRA">BATATA EXTRA</option>
+                <option value="BERINJELA">BERINJELA</option>
+                <option value="BETERRABA">BETERRABA</option>
+                <option value="BANANA / TERRA">BANANA / TERRA</option>
+                <option value="BANANA/ PRATA">BANANA/ PRATA</option>
+                <option value="BRÓCOLIS">BRÓCOLIS</option>
+                <option value="CENOURA">CENOURA</option>
+                <option value="CENOURA MISTA">CENOURA MISTA</option>
+                <option value="CEBOLA 2">CEBOLA 2</option>
+                <option value="CEBOLA 3">CEBOLA 3</option>
+                <option value="CEBOLA ROXA 2">CEBOLA ROXA 2</option>
+                <option value="CEBOLA ROXA 3">CEBOLA ROXA 3</option>
+                <option value="CAQUI">CAQUI</option>
+                <option value="CÔCO">CÔCO</option>
+                <option value="COUVE FLOR">COUVE FLOR</option>
+                <option value="CHUCHU">CHUCHU</option>
+                <option value="GOIABA">GOIABA</option>
+                <option value="GENGIBRE">GENGIBRE</option>
+                <option value="KIWI">KIWI</option>
+                <option value="JILÓ">JILÓ</option>
+                <option value="LARANJA">LARANJA</option>
+                <option value="LIMÃO">LIMÃO</option>
+                <option value="MAÇA ARGENTINA">MAÇA ARGENTINA</option>
+                <option value="MAÇA VERDE">MAÇA VERDE</option>
+                <option value="MANGA TOMI">MANGA TOMI</option>
+                <option value="MANGA ESPADA">MANGA ESPADA</option>
+                <option value="MAMÃO FORMOSA">MAMÃO FORMOSA</option>
+                <option value="MAMÃO HAVAI">MAMÃO HAVAI</option>
+                <option value="MARACUJÁ">MARACUJÁ</option>
+                <option value="MELÃO AMARELO">MELÃO AMARELO</option>
+                <option value="MELÃO REI">MELÃO REI</option>
+                <option value="MORANGO">MORANGO</option>
+                <option value="PASSAS">PASSAS</option>
+                <option value="PIMENTÃO VERDE">PIMENTÃO VERDE</option>
+                <option value="PIMENTÃO VERMELHO">PIMENTÃO VERMELHO</option>
+                <option value="PÊRA PORTUGUESA">PÊRA PORTUGUESA</option>
+                <option value="PÊRA ARGENTINA">PÊRA ARGENTINA</option>
+                <option value="POKAN">POKAN</option>
+                <option value="REPOLHO VERDE">REPOLHO VERDE</option>
+                <option value="REPOLHO ROXO">REPOLHO ROXO</option>
+                <option value="QUIABO SACO">QUIABO SACO</option>
+                <option value="QUIABO CAIXA">QUIABO CAIXA</option>
+                <option value="RAMBUTAN">RAMBUTAN</option>
+                <option value="UVA ITÁLIA">UVA ITÁLIA</option>
+                <option value="UVA RUBI">UVA RUBI</option>
+                <option value="UVA VITÓRIA">UVA VITÓRIA</option>
+                <option value="TOMATE BOCA 1°">TOMATE BOCA 1°</option>
+                <option value="TOMATE BOCA 2°">TOMATE BOCA 2°</option>
+                <option value="TOMATE BOCA 7">TOMATE BOCA 7</option>
+                <option value="TOMATE EXTRA">TOMATE EXTRA</option>
+                <option value="VARGEM">VARGEM KG</option>
+                <option value="MELANCIA">MELANCIA</option>
+                <!-- Adicione mais opções de frutas conforme necessário -->
+            </select>
+            <label for="quantidade_item">Quantidade:</label>
+            <input type="number" id="quantidade_item" name="quantidade_item" required>
+            <button class="btn" type="submit">Adicionar Item</button>
+            <!-- Popup verde para adicionar item -->
+            <div class="popup-green">Item adicionado com sucesso!</div>
+        </form>
+
+        <!-- Lista de Itens do Pedido -->
+        <h2>Itens do Pedido</h2>
+        <ul>
+            {% for item in pedido.itempedido_set.all %}
+            <li>
+                <div>
+                    {{ item.tipo }} - Quantidade: {{ item.quantidade }}
+                </div>
+                <div>
+                    <a href="{% url 'remover_item_pedido' pedido.id item.id %}" class="btn-remove">Remover</a>
+                    <!-- Popup vermelho para remover item -->
+                    <div class="popup-red">Item removido com sucesso!</div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        
+        <!-- Botões de ação -->
+        <div class="action-buttons">
+            <form method="post" action="{% url 'concluir_pedido' pedido.id %}">
+                {% csrf_token %}
+                <button class="btn" type="submit">Concluir Pedido</button>
+            </form>
+            <a href="{% url 'dashboard' %}" class="btn-back">Voltar para o Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript para mostrar e ocultar os popups
+        document.addEventListener('DOMContentLoaded', function () {
+    const addButton = document.querySelector('.btn');
+    const addPopup = document.querySelector('.popup-green');
+    addButton.addEventListener('click', function () {
+        addPopup.style.display = 'block';
+        setTimeout(function () {
+            addPopup.style.display = 'none';
+        }, 2000); // Alterado para 2 segundos (2000 ms)
+    });
+
+    const removeButtons = document.querySelectorAll('.btn-remove');
+    const removePopups = document.querySelectorAll('.popup-red');
+    removeButtons.forEach(function (button, index) {
+        button.addEventListener('click', function () {
+            removePopups[index].style.display = 'block';
+            setTimeout(function () {
+                removePopups[index].style.display = 'none';
+            }, 2000); // Alterado para 2 segundos (2000 ms)
+        });
+    });
+});
+
+    </script>
+</body>
+</html>
