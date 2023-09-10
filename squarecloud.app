@@ -5,5 +5,5 @@ DISPLAY_NAME=Frutos Frescos
 DESCRIPTION=Registro De Pedidos
 AVATAR=https://ibb.co/M6YpLrg
 SUBDOMAIN=frutosfrescos
-START=gunicorn frutas_system.wsgi:application
+START=python waitress_config.py
 AUTORESTART=true
